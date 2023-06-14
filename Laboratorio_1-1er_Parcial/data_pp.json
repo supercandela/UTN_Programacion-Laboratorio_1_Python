@@ -1,0 +1,204 @@
+{
+  "juegos":[
+    {
+      "id": 1,
+      "nombre": "Pac-Man",
+      "plataforma": "Arcade",
+      "modo": "Un jugador",
+      "empresa": "Namco",
+      "anio": "1980",
+      "pais": "Japon",
+      "genero": "Laberinto"
+    },
+    {
+      "id": 2,
+      "nombre": "Tetris",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, multijugador",
+      "empresa": "The Tetris Company",
+      "anio": "1984",
+      "pais": "Union Sovietica",
+      "genero": "Puzle"
+    },
+    {
+      "id": 3,
+      "nombre": "Space Invaders",
+      "plataforma": "Arcade",
+      "modo": "Un jugador",
+      "empresa": "Taito",
+      "anio": "1978",
+      "pais": "Japon",
+      "genero": "Matamarcianos"
+    },
+    {
+      "id": 4,
+      "nombre": "Mario Bros.",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, multijugador",
+      "empresa": "Nintendo",
+      "anio": "1983",
+      "pais": "EEUU",
+      "genero": "Plataformas"
+    },
+    {
+      "id": 5,
+      "nombre": "Super Mario Bros.",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, dos jugadores",
+      "empresa": "Nintendo",
+      "anio": "1985",
+      "pais": "EEUU",
+      "genero": "Plataformas"
+    },
+    {
+      "id": 6,
+      "nombre": "Donkey Kong",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, dos jugadores",
+      "empresa": "Nintendo",
+      "anio": "1981",
+      "pais": "EEUU",
+      "genero": "Plataformas"
+    },
+    {
+      "id": 7,
+      "nombre": "Asteroids",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, multijugador",
+      "empresa": "Atari, Inc.",
+      "anio": "1979",
+      "pais": "EEUU",
+      "genero": "Disparos"
+    },
+    {
+      "id": 8,
+      "nombre": "Bubble Bobble",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, dos jugadores",
+      "empresa": "Taito",
+      "anio": "1986",
+      "pais": "Japon",
+      "genero": "Plataformas"
+    },
+    {
+      "id": 9,
+      "nombre": "Out run",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, multijugador",
+      "empresa": "Sega",
+      "anio": "1986",
+      "pais": "Japon",
+      "genero": "Carreras"
+    },
+    {
+      "id": 10,
+      "nombre": "Gyruss",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, dos jugadores",
+      "empresa": "Konami",
+      "anio": "1983",
+      "pais": "Japon",
+      "genero": "Matamarcianos" 
+    },
+    {
+      "id": 11,
+      "nombre": "Galaga",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, multijugador",
+      "empresa": "Namco",
+      "anio": "1981",
+      "pais": "Japon",
+      "genero": "Matamarcianos"
+    },
+    {
+      "id": 12,
+      "nombre": "Qix",
+      "plataforma": "Arcade",
+      "modo": "Un jugador",
+      "empresa": "Taito",
+      "anio": "1981",
+      "pais": "Japon",
+      "genero": "Puzle"
+    },
+    {
+      "id": 13,
+      "nombre": "Double Dragon",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, multijugador",
+      "empresa": "Taito",
+      "anio": "1987",
+      "pais": "Japon",
+      "genero": "Peleas contra varios rivales"
+    },
+    {
+      "id": 14,
+      "nombre": "Final Fight",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, cooperativo",
+      "empresa": "Capcom",
+      "anio": "1989",
+      "pais": "Japon",
+      "genero": "Peleas contra varios rivales"
+    },
+    {
+      "id": 15,
+      "nombre": "Street Fighter",
+      "plataforma": "Arcade",
+      "modo": "Un jugador, multijugador",
+      "empresa": "Capcom",
+      "anio": "1987",
+      "pais": "Japon",
+      "genero": "Pelea"
+    },
+    {
+      "id": 16,
+      "nombre": "Uncharted - El tesoro de Drake",
+      "plataforma": "Tercera persona",
+      "modo": "Un jugador, multijugador", 
+      "empresa": "Naughty Dog",
+      "anio": "2007",
+      "pais": "EEUU",
+      "genero": "Accion-aventura"
+    },
+    {
+      "id": 17,
+      "nombre": "Fortnite",
+      "plataforma": "Tercera persona",
+      "modo": "Un jugador, multijugador cooperativo",
+      "empresa": "Epic Games",
+      "anio": "2017",
+      "pais": "EEUU",
+      "genero": "Supervivencia, Mundo abierto, Battle Royale"
+    },
+    {
+      "id": 18,
+      "nombre": "Fall Guys",
+      "plataforma": "Tercera persona",
+      "modo": "Multijugador",
+      "empresa": "Epic Games",
+      "anio": "2020",
+      "pais": "EEUU",
+      "genero": "Battle Royale, Plataformas"
+    },
+    {
+      "id": 19,
+      "nombre": "Lego Batman",
+      "plataforma": "Tercera persona",
+      "modo": "Un jugador, Multijugador", 
+      "empresa": "Warner Bros. Interactive Entertainment",
+      "anio": "2008",
+      "pais": "EEUU",
+      "genero": "Accion-aventura"
+    },
+    {
+      "id": 20,
+      "nombre": "Spider-Man",
+      "plataforma": "Tercera persona",
+      "modo": "Un jugador",
+      "empresa": "Insomniac Games",
+      "anio": "2018",
+      "pais": "EEUU",
+      "genero": "Accion-aventura"
+    }
+  ]
+}

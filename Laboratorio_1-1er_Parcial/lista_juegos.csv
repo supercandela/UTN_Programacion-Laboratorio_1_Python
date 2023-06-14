@@ -1,0 +1,21 @@
+id,nombre,plataforma,modo,empresa,anio,pais,genero
+7,Asteroids,arcade,"un jugador, multijugador","atari, inc.",1979,eeuu,disparos
+14,Final Fight,arcade,"un jugador, cooperativo",capcom,1989,japon,peleas contra varios rivales
+15,Street Fighter,arcade,"un jugador, multijugador",capcom,1987,japon,pelea
+17,Fortnite,tercera persona,"un jugador, multijugador cooperativo",epic games,2017,eeuu,"supervivencia, mundo abierto, battle royale"
+18,Fall Guys,tercera persona,multijugador,epic games,2020,eeuu,"battle royale, plataformas"
+20,Spider-Man,tercera persona,un jugador,insomniac games,2018,eeuu,accion-aventura
+10,Gyruss,arcade,"un jugador, dos jugadores",konami,1983,japon,matamarcianos
+1,Pac-Man,arcade,un jugador,namco,1980,japon,laberinto
+11,Galaga,arcade,"un jugador, multijugador",namco,1981,japon,matamarcianos
+16,Uncharted - El tesoro de Drake,tercera persona,"un jugador, multijugador",naughty dog,2007,eeuu,accion-aventura
+4,Mario Bros.,arcade,"un jugador, multijugador",nintendo,1983,eeuu,plataformas
+5,Super Mario Bros.,arcade,"un jugador, dos jugadores",nintendo,1985,eeuu,plataformas
+6,Donkey Kong,arcade,"un jugador, dos jugadores",nintendo,1981,eeuu,plataformas
+9,Out run,arcade,"un jugador, multijugador",sega,1986,japon,carreras
+3,Space Invaders,arcade,un jugador,taito,1978,japon,matamarcianos
+8,Bubble Bobble,arcade,"un jugador, dos jugadores",taito,1986,japon,plataformas
+12,Qix,arcade,un jugador,taito,1981,japon,puzle
+13,Double Dragon,arcade,"un jugador, multijugador",taito,1987,japon,peleas contra varios rivales
+2,Tetris,arcade,"un jugador, multijugador",the tetris company,1984,union sovietica,puzle
+19,Lego Batman,tercera persona,"un jugador, multijugador",warner bros. interactive entertainment,2008,eeuu,accion-aventura
