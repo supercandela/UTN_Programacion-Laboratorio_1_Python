@@ -15,19 +15,19 @@ y_gap = (screen.get_height() - number_rows * grid_size) // 2
 #BLOCKS
 blocks = [
     #LINEA
-    [[1, 4, 7], [3, 4, 5]],
-    #CRUZ
-    [[1, 3, 4, 5, 7]],
+    [[0, 1, 2, 3], [1, 5, 9, 13]],
+    #CUADRADO
+    [[1, 2, 5, 6]],
     #LETRA S - DOS EN DOS - 1
-    [[0, 1, 4, 5], [1, 3, 4, 6]],
+    [[1, 2, 4, 5], [1, 5, 6, 10]],
     #LETRA Z - DOS EN DOS - 2
-    [[1, 2, 3, 4], [0, 3, 4, 7]],
+    [[0, 1, 5, 6], [2, 5, 6, 9]],
     #LETRA J
-    [[0, 1, 3, 6], [0, 1, 2, 5], [2, 5, 7, 8], [3, 6, 7, 8]],
+    [[0, 1, 2, 6], [2, 6, 9, 10], [4, 8, 9, 10], [0, 1, 4, 8]],
     #LETRA L
-    [[1, 2, 5, 8], [5, 6, 7, 8], [0, 3, 6, 7], [0, 1, 2, 3]],
+    [[0, 4, 8, 9], [0, 1, 2, 4], [1, 2, 6, 10], [6, 8, 9, 10]],
     #LETRA T
-    [[4, 6, 7, 8], [0, 3, 4, 6], [0, 1, 2, 4], [2, 4, 5, 8]]
+    [[5, 8, 9, 10], [0, 4, 5, 8], [0, 1, 2, 5], [2, 5, 6, 10]]
 ]
 
 color_bloque = [RED, YELLOW, MAGENTA, GREEN, BLUE, ORANGE, CYAN]
@@ -77,13 +77,13 @@ def draw_grid(cols: int, rows: int, grid_size: int, x_gap: int, y_gap: int):
 def draw_block():
     """
     Dibuja el bloque.
-    Recorre la matriz de 3 x 3 con los dos for anidados.
+    Recorre la matriz de 4 x 4 con los dos for anidados.
     """
-    for y in range(3):
-        for x in range (3):
+    for y in range(4):
+        for x in range(4):
             # Revisa si el valor existe en la instancia del bloque que estamos chequeando. Si existe, dibuja el cuadrado que corresponde.
             # Este if aplana el valor de la matriz que estamos chequeando (la lista blocks)
-            if y * 3 + x in block.shape():
+            if y * 4 + x in block.shape():
                 pygame.draw.rect(screen, 
                                  block.colour, 
                                  [(x + block.x) * grid_size + x_gap + 1, 
@@ -99,9 +99,9 @@ def rotate_block():
     last_rotation = block.rotation
     block.rotation = (block.rotation + 1) % len(blocks[block.type])
     can_rotate = True
-    for y in range(3):
-        for x in range(3):
-            if y * 3 + x in block.shape():
+    for y in range(4):
+        for x in range(4):
+            if y * 4 + x in block.shape():
                 if collides( 0, 0):
                     can_rotate = False
 
@@ -118,9 +118,9 @@ def collides(next_x: int, next_y: int):
     - next_y: (type: int) próximo valor de y. Lo sumo al valor actual que chequeo.
     """
     collision = False
-    for y in range(3):
-        for x in range(3):
-            if y * 3 + x in block.shape():
+    for y in range(4):
+        for x in range(4):
+            if y * 4 + x in block.shape():
                 #Chequea:
                 # que no salga de la pantalla por arriba
                 # que no salga de la pantalla por abajo
@@ -143,9 +143,9 @@ def drop_block():
     Chequea si llega al final de la pantalla, para detener el movimiento de caída.
     """
     can_drop = True
-    for y in range(3):
-        for x in range(3):
-            if y * 3 + x in block.shape():
+    for y in range(4):
+        for x in range(4):
+            if y * 4 + x in block.shape():
                 if collides(0, 1):
                     can_drop = False
     
@@ -153,9 +153,9 @@ def drop_block():
         block.y += 1
     else:
         #Al tocar el fondo, agrego el bloque al game board y lo pinto de verde
-        for y in range(3):
-            for x in range(3):
-                if y * 3 + x in block.shape():
+        for y in range(4):
+            for x in range(4):
+                if y * 4 + x in block.shape():
                     game_board[x + block.x][y + block.y] = block.colour
     
     return can_drop
@@ -169,9 +169,9 @@ def side_move(dx: int):
     """
     can_move = True
 
-    for y in range(3):
-        for x in range(3):
-            if y * 3 + x in block.shape():
+    for y in range(4):
+        for x in range(4):
+            if y * 4 + x in block.shape():
                 if collides( dx, 0):
                     can_move = False
 
