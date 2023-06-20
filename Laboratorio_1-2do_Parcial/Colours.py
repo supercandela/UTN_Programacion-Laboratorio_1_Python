@@ -3,7 +3,7 @@ BLACK = ( 0, 0, 0)
 WHITE = ( 255, 255, 255)
 GRID_GREY = ( 100, 100, 100)
 
-#BLOQUES
+#BLOQUES - Colores por bloque
 RED = ( 255, 0, 0)
 YELLOW = ( 255, 255, 0) 
 MAGENTA = ( 255, 0 , 128)
