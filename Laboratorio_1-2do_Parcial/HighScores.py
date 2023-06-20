@@ -1,6 +1,7 @@
 import pygame
 import Colours
 import random
+import sqlite3
 
 class HighScores:
     def __init__(self, screen):
@@ -16,8 +17,8 @@ class HighScores:
         self.font_title = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\8-bit Arcade_In.ttf', 80)
         self.font_title_shadow = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\8-bit Arcade_Out.ttf', 80)
 
-        self.font_gameplay = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\Minecraft.ttf', 28)
-        self.font_general = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\Minecraft.ttf', 20)
+        self.font_headers = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\Minecraft.ttf', 20)
+        self.font_general = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\Minecraft.ttf', 15)
         #Textos
         self.title = self.font_title.render('Hall of Fame', False, (Colours.ORANGE))
         self.title_position = ((screen.get_width() // 2 - self.title.get_width() // 2), 
@@ -28,16 +29,20 @@ class HighScores:
                                       (screen.get_height() - 750))
 
         
-        self.gameplay_text_text = self.font_gameplay.render('Play Game - Press "Space bar"', False, (Colours.LIGHT_GREY))
-        self.gameplay_text_position = ((screen.get_width() // 2 - self.gameplay_text_text.get_width() // 2), 
-                                       (screen.get_height() - 350))
+        # self.headers_text = self.font_gameplay.render('Play Game - Press "Space bar"', False, (Colours.LIGHT_GREY))
+        # self.headers_position = ((screen.get_width() // 2 - self.gameplay_text_text.get_width() // 2), 
+        #                                (screen.get_height() - 350))
         
         self.return_text = self.font_general.render('Press "R" to return', False, (Colours.LIGHT_GREY))
         self.return_text_position = ((screen.get_width() // 2 - self.return_text.get_width() // 2),
-                                     (screen.get_height() - 100))
+                                     (screen.get_height() - 80))
 
         self.main_menu = None
         self.fps = 5
+
+        self.connection_string = 'Laboratorio_1-2do_Parcial\\db\\tetris_high_scores.db'
+        self.table_name = 'tetris_high_scores'
+        self.create_db = True
     
     def update(self, events) -> object:
         """
@@ -48,6 +53,12 @@ class HighScores:
 
         Return: self
         """
+        # #Creo la db si no existe
+        # if self.create_db:
+        #     self.create_table_scores()
+        #     self.insert_table_new_data()
+        #     self.create_db = False
+
         #Recorro los eventos y le asigno acciones a cada evento diferente
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -70,7 +81,122 @@ class HighScores:
         else:
             screen.blit(self.title, self.title_position)
 
-        # screen.blit(self.candela_v_text, self.candela_v_text_position)
-        # screen.blit(self.gameplay_text_text, self.gameplay_text_position)
-        # screen.blit(self.high_scores_text, self.high_scores_text_position)
+        high_scores = self.print_high_scores(screen)
+        for i in range(11):
+            for j in range(5):
+                screen.blit(high_scores[i][j][0], high_scores[i][j][1])
+
         screen.blit(self.return_text, self.return_text_position)
+
+    def create_table_scores(self):
+        """
+        Crea la tabla inicial para cargar los puntajes más altos
+        """
+        with sqlite3.connect(self.connection_string) as conexion:
+            try:
+                sentencia = f"CREATE table {self.table_name} \
+                                (\
+                                    id integer primary key autoincrement,\
+                                    nickname text,\
+                                    score int,\
+                                    lines int,\
+                                    level int\
+                                )"
+                conexion.execute(sentencia)
+                print("Se creo la tabla personajes")
+            except sqlite3.OperationalError:
+                print("La tabla personajes ya existe")
+    
+    def insert_table_new_data(self):
+        """
+        Inserto 15 valores inventados y standard para cubrir los high scores en la tabla original.
+        """
+        fake_data = [
+            ("Mike Wazowski", 5000, 50, 2),
+            ("James P. Sullivan", 4500, 45, 2),
+            ("Randall Boggs", 3000, 30, 2),
+            ("Celia", 2500, 25, 1),
+            ("Roz", 2000, 20, 1),
+            ("Fungus", 1500, 15, 1),
+            ("The Abominable Snowman", 1000, 10, 1),
+            ("Henry J. Waternoose III", 500, 5, 1),
+            ("Boo", 300, 3, 1),
+            ("George Sanderson", 200, 2, 1),
+            ("Mrs. Flint", 100, 1, 1),
+            ("Needleman", 100, 1, 1),
+            ("Pete Ward", 100, 1, 1),
+            ("Smitty", 100, 1, 1),
+            ("Chef de sushi", 100, 1, 1)
+        ]
+        with sqlite3.connect(self.connection_string) as conexion:
+            for item in fake_data:
+                try:
+                    conexion.execute(f"INSERT into {self.table_name} ( nickname, score, lines, level) values (?,?,?,?)", item)
+                except:
+                    print("Error en la inserción de dato")
+
+    def select_high_scores(self):
+        """
+        Hace un select a la db y devuelve los 10 puntajes más altos.
+        """
+        error_message = 'En este momento, no se pueden mostrar los puntajes'
+        with sqlite3.connect(self.connection_string) as conexion:
+            try:
+                #Select all
+                # cursor = conexion.execute(f"SELECT * FROM {self.table_name}")
+                #Select 10 puntajes más altos
+                cursor = conexion.execute(f"SELECT * FROM {self.table_name} \
+                                          ORDER BY score DESC \
+                                          LIMIT 10")
+                return cursor
+            except:
+                return error_message
+
+    def print_high_scores(self, screen):
+        """
+        Imprime en pantalla los puntajes más altos
+
+        Params:
+        - screen: (type: surface)
+        """
+        scores_to_show = []
+        items_cols = []
+
+        posicion_y = 650
+        posicion_x_col1 = 100
+        posicion_x_col2 = 140
+        posicion_x_col3 = 420
+        posicion_x_col4 = 560
+        posicion_x_col5 = 650
+
+        header1 = self.font_headers.render('{0:<4}'.format('ID'), False, (Colours.MAGENTA))
+        header2 = self.font_headers.render('{0:<30}'.format('NICKNAME'), False, (Colours.MAGENTA))
+        header3 = self.font_headers.render('{0:^20}'.format('SCORE'), False, (Colours.MAGENTA))
+        header4 = self.font_headers.render('{0:^10}'.format('LINES'), False, (Colours.MAGENTA))
+        header5 = self.font_headers.render('{0:^10}'.format('LEVEL'), False, (Colours.MAGENTA))
+
+        items_cols = [[header1, (posicion_x_col1, (screen.get_height() - posicion_y))],
+                      [header2, (posicion_x_col2, (screen.get_height() - posicion_y))],
+                      [header3, (posicion_x_col3, (screen.get_height() - posicion_y))],
+                      [header4, (posicion_x_col4, (screen.get_height() - posicion_y))],
+                      [header5, (posicion_x_col5, (screen.get_height() - posicion_y))]]
+            
+        scores_to_show.append(items_cols)
+        
+        db_scores = self.select_high_scores()
+        for item in db_scores:
+            posicion_y -= 50
+            col1 = self.font_headers.render('{0:<4}'.format(item[0]), False, (Colours.LIGHT_GREY))
+            col2 = self.font_headers.render(f'{item[1].ljust(30)[:30]}', False, (Colours.LIGHT_GREY))
+            col3 = self.font_headers.render('{0:^20}'.format(item[2]), False, (Colours.LIGHT_GREY))
+            col4 = self.font_headers.render('{0:^10}'.format(item[3]), False, (Colours.LIGHT_GREY))
+            col5 = self.font_headers.render('{0:^10}'.format(item[4]), False, (Colours.LIGHT_GREY))
+
+            items_cols = [[col1, (posicion_x_col1, (screen.get_height() - posicion_y))],
+                          [col2, (posicion_x_col2, (screen.get_height() - posicion_y))],
+                          [col3, (posicion_x_col3, (screen.get_height() - posicion_y))],
+                          [col4, (posicion_x_col4, (screen.get_height() - posicion_y))],
+                          [col5, (posicion_x_col5, (screen.get_height() - posicion_y))]]
+            
+            scores_to_show.append(items_cols)
+        return scores_to_show

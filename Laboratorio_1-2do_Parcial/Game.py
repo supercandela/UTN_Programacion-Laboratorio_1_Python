@@ -22,6 +22,8 @@ class Game:
         self.height = h
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.game_name)
+        pygame_icon = pygame.image.load('Laboratorio_1-2do_Parcial\\images\\Tetris_Icon.png')
+        pygame.display.set_icon(pygame_icon)
         self.current_state = None
 
     def run(self, state:object):
