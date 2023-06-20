@@ -272,7 +272,7 @@ class GamePlay:
         
         return lines
                 
-    def update(self, events, screen) -> object:
+    def update(self, events) -> object:
         """
         Actualiza los atributos de la clase.
 

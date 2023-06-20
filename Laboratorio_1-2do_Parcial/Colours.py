@@ -2,6 +2,8 @@
 BLACK = ( 0, 0, 0)
 WHITE = ( 255, 255, 255)
 GRID_GREY = ( 100, 100, 100)
+LIGHT_GREY = ( 150, 150, 150)
+PURPLE = ( 165, 36, 173)
 
 #BLOQUES - Colores por bloque
 RED = ( 255, 0, 0)

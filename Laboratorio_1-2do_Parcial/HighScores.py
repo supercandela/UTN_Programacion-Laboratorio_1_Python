@@ -17,7 +17,7 @@ class HighScores:
         self.main_menu = None
         self.fps = 5
     
-    def update(self, events, screen: None) -> object:
+    def update(self, events) -> object:
         """
         Actualiza los atributos de la clase.
 

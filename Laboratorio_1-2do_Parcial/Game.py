@@ -48,7 +48,7 @@ class Game:
             #Fondo negro
             self.screen.fill((Colours.BLACK))
             #Al objeto current_state, lo updateo con los eventos del loop principal
-            self.current_state = self.current_state.update(events, self.screen)
+            self.current_state = self.current_state.update(events)
             #Dibujo el objeto current_state en la pantalla
             self.current_state.draw(self.screen)
             #Actualizo la pantalla
