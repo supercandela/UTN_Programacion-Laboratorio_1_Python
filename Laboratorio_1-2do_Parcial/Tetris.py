@@ -11,7 +11,7 @@ home = Home(game.screen)
 main_menu = MainMenu(game.screen)
 game_play = GamePlay(game.screen)
 high_scores = HighScores(game.screen)
-settings = Settings()
+settings = Settings(game.screen)
 
 #Le asigno a cada objeto las pantallas que necesito
 #Home

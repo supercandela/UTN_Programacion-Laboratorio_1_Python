@@ -360,9 +360,17 @@ class GamePlay:
             # if event.type != pygame.KEYDOWN:
             if not self.drop_block() and not self.game_finished:
                 #Chequea si se crearon líneas. Si se crearon, suma el puntaje.
-                self.lines = self.find_lines()
-                if self.lines > 0:
-                    self.score += 100 * self.lines
+                created_lines = self.find_lines()
+                if created_lines > 0:
+                    if created_lines == 1:
+                        self.score += 100
+                    elif created_lines == 2:
+                        self.score += 300
+                    elif created_lines == 3:
+                        self.score += 500
+                    else:
+                        self.score += 800
+                    self.lines += created_lines
                 self.block = self.next_block
                 self.next_block = Block((self.number_cols - 1) // 2, 0)
                 if self.collides(0,0):
@@ -400,6 +408,6 @@ class GamePlay:
         level_rect = [535, 670, 240, 100]
         pygame.draw.rect(screen, Colours.GRID_GREY, level_rect, 2)
         screen.blit(self.text_level, self.text_level_position)
-        live_level = self.font.render(str(self.lines), False, Colours.LIGHT_GREY)
+        live_level = self.font.render(str(self.level), False, Colours.LIGHT_GREY)
         screen.blit(live_level, [740 - live_level.get_width(), 
                                  level_rect[1] + level_rect[3] - live_level.get_height() - 25])
