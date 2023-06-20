@@ -27,23 +27,28 @@ class MainMenu:
         self.title_shadow_position = ((screen.get_width() // 2 - self.title.get_width() // 2), 
                                (screen.get_height() - 650))
         
+        self.candela_v_text = self.font_general.render("- Candela's Version -", False, (Colours.LIGHT_GREY))
+        self.candela_v_text_position = ((screen.get_width() // 2 - self.candela_v_text.get_width() // 2), 
+                                          (screen.get_height() - 480))
+        
         self.gameplay_text_text = self.font_gameplay.render('Play Game - Press "Space bar"', False, (Colours.LIGHT_GREY))
         self.gameplay_text_position = ((screen.get_width() // 2 - self.gameplay_text_text.get_width() // 2), 
-                                       (screen.get_height() - 400))
+                                       (screen.get_height() - 350))
         
         self.high_scores_text = self.font_general.render('High Scores - Press "H"', False, (Colours.LIGHT_GREY))
         self.high_scores_text_position = ((screen.get_width() // 2 - self.high_scores_text.get_width() // 2), 
-                                          (screen.get_height() - 300))
+                                          (screen.get_height() - 250))
         
         self.settings_text = self.font_general.render('Settings - Press "S"', False, (Colours.LIGHT_GREY))
         self.settings_text_position = ((screen.get_width() // 2 - self.settings_text.get_width() // 2), 
-                                       (screen.get_height() - 260))
+                                       (screen.get_height() - 210))
 
 
         #Otras Pantallas
         self.gameplay_scene = None
         self.settings = None
         self.high_scores = None
+        self.home = None
         self.fps = 5
     
     def update(self, events) -> object:
@@ -64,6 +69,8 @@ class MainMenu:
                     return self.high_scores
                 if event.key == pygame.K_s:
                     return self.settings
+                else:
+                    return self.home
         return self
 
     def draw(self, screen):
@@ -81,7 +88,7 @@ class MainMenu:
         else:
             screen.blit(self.title, self.title_position)
 
-        # screen.blit(self.title_shadow, self.title_shadow_position)
+        screen.blit(self.candela_v_text, self.candela_v_text_position)
         screen.blit(self.gameplay_text_text, self.gameplay_text_position)
         screen.blit(self.high_scores_text, self.high_scores_text_position)
         screen.blit(self.settings_text, self.settings_text_position)

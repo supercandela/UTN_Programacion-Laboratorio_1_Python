@@ -10,13 +10,14 @@ game = Game('Tetris', 800, 800)
 home = Home(game.screen)
 main_menu = MainMenu(game.screen)
 game_play = GamePlay(game.screen)
-high_scores = HighScores()
+high_scores = HighScores(game.screen)
 settings = Settings()
 
 #Le asigno a cada objeto las pantallas que necesito
 #Home
 home.main_menu = main_menu
 #Main Menu
+main_menu.home = home
 main_menu.high_scores = high_scores
 main_menu.settings = settings
 main_menu.gameplay_scene = game_play

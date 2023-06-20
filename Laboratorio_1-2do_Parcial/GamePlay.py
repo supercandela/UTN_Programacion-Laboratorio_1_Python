@@ -1,13 +1,9 @@
 import pygame
 import Colours
-from Grid import Grid
-from Block import Block
-
-
-#ORIGINAL
 import random
+# from Grid import Grid
+# from Block import Block
 
-#ORIGINAL
 #BLOCKS
 BLOCKS = [
     #LINEA
@@ -66,37 +62,8 @@ class GamePlay:
 
         Return: Void
         """
-        # self.font = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\Tetris.ttf', 20)
-        # self.title = self.font.render('GamePlay', True, (Colours.WHITE))
-        # self.title_position = (10, 10)
         self.main_menu = None
 
-        #BOTON BACK
-        self.text_colour = Colours.WHITE
-        self.button_colour = Colours.BLUE
-        self.button_hover_colour = Colours.MAGENTA
-        self.button_width = 50
-        self.button_height = 20
-        self.button_rect = [screen.get_width() - self.button_width,
-                            0,
-                            self.button_width,
-                            self.button_height]
-        self.button_font = pygame.font.SysFont('Arial', 15)
-        self.button_text = self.button_font.render('Back', True, self.text_colour)
-        self.mouse_x, self.mouse_y = (0,0)
-
-        #Para cuando los bloques tocan arriba de la pantalla
-        self.game_finished = False
-        self.score = 0
-        self.fps = 5
-        #GAME OVER
-        self.font_game_over = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\Tetris.ttf', 20)
-        self.game_finished_text = self.font_game_over.render('Game Over', True, Colours.RED)
-        self.game_finished_text_position = ((screen.get_width() // 2 - self.game_finished_text.get_width() // 2), 
-                                       (screen.get_height() // 2 - self.game_finished_text.get_height() // 2))
-
-
-        #ORIGINAL
         #GRID
         # Tamaño de cada cuadrado de la grilla
         self.grid_size = 30
@@ -119,12 +86,52 @@ class GamePlay:
                 new_col.append(Colours.BLACK)
             self.game_board.append(new_col)
 
-        # #BLOQUE
-        # #Instancio el bloque, le paso como parámetros el lugar inicial del bloque
+        #BLOQUE
+        #Instancio el bloque, le paso como parámetros el lugar inicial del bloque
         self.block = Block((self.number_cols - 1) // 2, 0)
+        self.next_block = Block((self.number_cols - 1) // 2, 0)
+        self.next_block_rect = [535, 80, 240, 240]
 
+        self.fps = 5
         self.score = 0
         self.lines = 0
+        self.level = 1
+        #Para cuando los bloques tocan arriba de la pantalla
+        self.game_finished = False
+
+        #Textos
+        self.font = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\Minecraft.ttf', 30)
+        self.text_next_block = self.font.render('Next:', False, (Colours.LIGHT_GREY))
+        self.text_next_block_position = (550, 90)
+
+        self.text_score = self.font.render('Score:', False, (Colours.LIGHT_GREY))
+        self.text_score_position = (550, 380)
+
+        self.text_lines = self.font.render('Lines:', False, (Colours.LIGHT_GREY))
+        self.text_lines_position = (550, 530)
+
+        self.text_level = self.font.render('Level:', False, (Colours.LIGHT_GREY))
+        self.text_level_position = (550, 680)
+
+        #GAME OVER
+        self.font_game_over = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\Minecraft.ttf', 60)
+        self.game_finished_text = self.font_game_over.render('Game Over', False, Colours.PURPLE)
+        self.game_finished_text_position = (((screen.get_width() - 300) // 2 - self.game_finished_text.get_width() // 2) + self.grid_size, 
+                                            (screen.get_height() // 2 - self.game_finished_text.get_height() // 2))
+        
+        #BOTON BACK
+        self.text_colour = Colours.WHITE
+        self.button_colour = Colours.BLUE
+        self.button_hover_colour = Colours.MAGENTA
+        self.button_width = 50
+        self.button_height = 20
+        self.button_rect = [screen.get_width() - self.button_width,
+                            0,
+                            self.button_width,
+                            self.button_height]
+        self.button_font = pygame.font.SysFont('Arial', 15)
+        self.button_text = self.button_font.render('Pause', True, self.text_colour)
+        self.mouse_x, self.mouse_y = (0,0)
 
     def draw_grid(self, screen):
         """
@@ -161,6 +168,23 @@ class GamePlay:
                                     self.block.colour, 
                                     [(x + self.block.x) * self.grid_size + self.grid_size + 1, 
                                     (y + self.block.y) * self.grid_size + self.y_gap + 1,
+                                    self.grid_size - 2, 
+                                    self.grid_size - 2])
+                    
+    def draw_next_block(self, screen):
+        """
+        Dibuja el próximo bloque que va a salir en el panel lateral.
+        Recorre la matriz de 4 x 4 con los dos for anidados.
+        """
+        for y in range(4):
+            for x in range(4):
+                # Revisa si el valor existe en la instancia del bloque que estamos chequeando. Si existe, dibuja el cuadrado que corresponde.
+                # Este if aplana el valor de la matriz que estamos chequeando (la lista blocks)
+                if y * 4 + x in self.next_block.shape():
+                    pygame.draw.rect(screen, 
+                                    self.next_block.colour, 
+                                    [(x + self.next_block.x) * self.grid_size + self.grid_size + 1 + 370, 
+                                    (y + self.next_block.y) * self.grid_size + self.y_gap + 1 + 170,
                                     self.grid_size - 2, 
                                     self.grid_size - 2])
                     
@@ -339,12 +363,43 @@ class GamePlay:
                 self.lines = self.find_lines()
                 if self.lines > 0:
                     self.score += 100 * self.lines
-                self.block = Block((self.number_cols - 1) // 2, 0)
+                self.block = self.next_block
+                self.next_block = Block((self.number_cols - 1) // 2, 0)
                 if self.collides(0,0):
                     self.game_finished = True
 
-        font = pygame.font.SysFont('Arial', 25, True, False)
-        text = font.render('Score: ' + str(self.score), True, Colours.WHITE)
-        screen.blit(text, [0, 0])
+        # font = pygame.font.SysFont('Arial', 25, True, False)
+        # text = font.render('Score: ' + str(self.score), True, Colours.WHITE)
+        # screen.blit(text, [0, 0])
         if self.game_finished:
             screen.blit(self.game_finished_text, self.game_finished_text_position)
+
+        #Panel Lateral
+        #Next Block
+        pygame.draw.rect(screen, Colours.GRID_GREY, self.next_block_rect, 2)
+        screen.blit(self.text_next_block, self.text_next_block_position)
+        self.draw_next_block(screen)
+
+        #Score
+        score_rect = [535, 370, 240, 100]
+        pygame.draw.rect(screen, Colours.GRID_GREY, score_rect, 2)
+        screen.blit(self.text_score, self.text_score_position)
+        live_score = self.font.render(str(self.score), False, Colours.LIGHT_GREY)
+        screen.blit(live_score, [740 - live_score.get_width(), 
+                                 score_rect[1] + score_rect[3] - live_score.get_height() - 25])
+
+        #Lines
+        lines_rect = [535, 520, 240, 100]
+        pygame.draw.rect(screen, Colours.GRID_GREY, lines_rect, 2)
+        screen.blit(self.text_lines, self.text_lines_position)
+        live_lines = self.font.render(str(self.lines), False, Colours.LIGHT_GREY)
+        screen.blit(live_lines, [740 - live_lines.get_width(), 
+                                 lines_rect[1] + lines_rect[3] - live_lines.get_height() - 25])
+
+        #Level
+        level_rect = [535, 670, 240, 100]
+        pygame.draw.rect(screen, Colours.GRID_GREY, level_rect, 2)
+        screen.blit(self.text_level, self.text_level_position)
+        live_level = self.font.render(str(self.lines), False, Colours.LIGHT_GREY)
+        screen.blit(live_level, [740 - live_level.get_width(), 
+                                 level_rect[1] + level_rect[3] - live_level.get_height() - 25])
