@@ -1,5 +1,6 @@
 import pygame
 import Colours
+from pygame.mixer import Sound
 
 class Game:
     def __init__(self, name: str, w: int, h: int):
@@ -25,6 +26,8 @@ class Game:
         pygame_icon = pygame.image.load('Laboratorio_1-2do_Parcial\\images\\Tetris_Icon.png')
         pygame.display.set_icon(pygame_icon)
         self.current_state = None
+        self.settings = None
+        self.music_sound = Sound('Laboratorio_1-2do_Parcial\\sounds\\PowerGlove-Tetris.mp3')
 
     def run(self, state:object):
         """
@@ -36,6 +39,7 @@ class Game:
         game_over = False
         self.current_state = state
         clock = pygame.time.Clock()
+        
         #Loop principal
         while not game_over:
             clock.tick(self.current_state.fps)
@@ -46,6 +50,10 @@ class Game:
                     #Evita chequear todo lo que viene después, porque ya quiero salir del juego. Es para que no se queje el programa.
                     continue
             
+            if self.settings.music:
+                self.music_sound.play(1000)
+            else:
+                self.music_sound.stop()
             #Pantalla a mostrar
             #Fondo negro
             self.screen.fill((Colours.BLACK))

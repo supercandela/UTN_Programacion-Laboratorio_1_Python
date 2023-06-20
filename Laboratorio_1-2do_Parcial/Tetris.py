@@ -14,6 +14,8 @@ high_scores = HighScores(game.screen)
 settings = Settings(game.screen)
 
 #Le asigno a cada objeto las pantallas que necesito
+#Game
+game.settings = settings
 #Home
 home.main_menu = main_menu
 #Main Menu
@@ -23,6 +25,7 @@ main_menu.settings = settings
 main_menu.gameplay_scene = game_play
 #GamePlay
 game_play.main_menu = main_menu
+game_play.settings = settings
 #High Scores
 high_scores.main_menu = main_menu
 #Settings

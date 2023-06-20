@@ -1,6 +1,7 @@
 import pygame
 import Colours
 import random
+from pygame.mixer import Sound
 # from Grid import Grid
 # from Block import Block
 
@@ -63,6 +64,8 @@ class GamePlay:
         Return: Void
         """
         self.main_menu = None
+        self.settings = None
+        self.lines_sound_effect = Sound('Laboratorio_1-2do_Parcial\\sounds\\lines.wav')
 
         #GRID
         # Tamaño de cada cuadrado de la grilla
@@ -293,6 +296,8 @@ class GamePlay:
                 for y2 in range(y, 1, -1):
                     for x2 in range(self.number_cols):
                         self.game_board[x2][y2] = self.game_board[x2][y2 - 1]
+                        if self.settings.sound_effects:
+                            self.lines_sound_effect.play()
         
         return lines
                 

@@ -1,6 +1,7 @@
 import pygame
 import Colours
 import random
+from pygame.mixer import Sound
 
 class Settings:
     def __init__(self, screen):
@@ -32,12 +33,14 @@ class Settings:
         self.return_text_position = ((screen.get_width() // 2 - self.return_text.get_width() // 2),
                                      (screen.get_height() - 80))
 
-
         # self.font = pygame.font.Font('Laboratorio_1-2do_Parcial\\font\\Tetris.ttf', 50)
         # self.title = self.font.render('Settings', True, (Colours.WHITE))
         # self.title_position = (10, 10)
         self.main_menu = None
         self.fps = 5
+        self.music = False
+        self.sound_effects = False
+        self.sound_effects_sound = Sound('Laboratorio_1-2do_Parcial\\sounds\\lines.wav')
     
     def update(self, events) -> object:
         """
@@ -53,6 +56,12 @@ class Settings:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     return self.main_menu
+                if event.key == pygame.K_m:
+                    self.music = not self.music
+                if event.key == pygame.K_s:
+                    self.sound_effects = not self.sound_effects
+                    if self.sound_effects:
+                        self.sound_effects_sound.play()
         return self
 
     def draw(self, screen):
@@ -70,4 +79,27 @@ class Settings:
         else:
             screen.blit(self.title, self.title_position)
 
+        #Music Text
+        if self.music:
+            music_text = self.font_headers.render("Music On (Press 'M' to switch)", False, (Colours.LIGHT_GREY))
+            music_text_position = ((screen.get_width() // 2 - music_text.get_width() // 2),
+                                   (screen.get_height() - 630))
+        else:
+            music_text = self.font_headers.render("Music Off (Press 'M' to switch)", False, (Colours.LIGHT_GREY))
+            music_text_position = ((screen.get_width() // 2 - music_text.get_width() // 2),
+                                   (screen.get_height() - 630))
+        screen.blit(music_text, music_text_position)
+        
+        #Sound Effects Text
+        if self.sound_effects:
+            sound_effects_text = self.font_headers.render("Sound Effects On (Press 'S' to switch)", False, (Colours.LIGHT_GREY))
+            sound_effects_text_position = ((screen.get_width() // 2 - sound_effects_text.get_width() // 2),
+                                           (screen.get_height() - 580))
+        else:
+            sound_effects_text = self.font_headers.render("Sound Effects Off (Press 'S' to switch)", False, (Colours.LIGHT_GREY))
+            sound_effects_text_position = ((screen.get_width() // 2 - sound_effects_text.get_width() // 2),
+                                           (screen.get_height() - 580))
+        screen.blit(sound_effects_text, sound_effects_text_position)
+        
+        #Return Text
         screen.blit(self.return_text, self.return_text_position)
