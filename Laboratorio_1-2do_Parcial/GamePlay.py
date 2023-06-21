@@ -326,6 +326,7 @@ class GamePlay:
                     return self.main_menu
                 if self.button_rect_reset[0] <= self.mouse_x <= self.button_rect_reset[0] + self.button_rect_reset[2] and \
                     self.button_rect_reset[1] <= self.mouse_y <= self.button_rect_reset[1] + self.button_rect_reset[3]:
+                    #Reseteo los valores para reiniciar la partida
                     #GameBoard
                     #Tablero de fondo
                     self.game_board = []
@@ -340,12 +341,10 @@ class GamePlay:
                     #Instancio el bloque, le paso como parámetros el lugar inicial del bloque
                     self.block = Block((self.number_cols - 1) // 2, 0)
                     self.next_block = Block((self.number_cols - 1) // 2, 0)
-
                     self.fps = 5
                     self.score = 0
                     self.lines = 0
                     self.level = 1
-                    #Para cuando los bloques tocan arriba de la pantalla
                     self.game_finished = False
             if event.type == pygame.MOUSEMOTION:
                 self.mouse_x, self.mouse_y = event.pos

@@ -200,21 +200,21 @@ class HighScores:
             item_order += 1
         return scores_to_show
     
-    def save_game_score(self, score, lines, level):
-        """
-        Guarda el puntaje obtenido en la base de datos.
+    # def save_game_score(self, score, lines, level):
+    #     """
+    #     Guarda el puntaje obtenido en la base de datos.
 
-        Params:
-        - score: (type:int) puntaje obtenido en la partida
-        - lines: (type:int) lineas formadas en la partida
-        - level: (type:int) nivel alcanzado en la partida
-        """
-        name = 'Otro Nombre'
-        with sqlite3.connect(self.connection_string) as conexion:
-            try:
-                conexion.execute(f"INSERT into {self.table_name} ( nickname, score, lines, level) values (?,?,?,?)", (name, score, lines, level,))
-            except:
-                print("Error en la inserción de dato")
+    #     Params:
+    #     - score: (type:int) puntaje obtenido en la partida
+    #     - lines: (type:int) lineas formadas en la partida
+    #     - level: (type:int) nivel alcanzado en la partida
+    #     """
+    #     name = 'Otro Nombre'
+    #     with sqlite3.connect(self.connection_string) as conexion:
+    #         try:
+    #             conexion.execute(f"INSERT into {self.table_name} ( nickname, score, lines, level) values (?,?,?,?)", (name, score, lines, level,))
+    #         except:
+    #             print("Error en la inserción de dato")
 
     def save_high_scores(self, score, lines, level):
         """
