@@ -103,9 +103,9 @@ class HighScores:
                                     level int\
                                 )"
                 conexion.execute(sentencia)
-                print("Se creo la tabla personajes")
+                print("Se creo la tabla de high scores")
             except sqlite3.OperationalError:
-                print("La tabla personajes ya existe")
+                print("La tabla high scores ya existe")
     
     def insert_table_new_data(self):
         """
@@ -121,12 +121,7 @@ class HighScores:
             ("The Abominable Snowman", 1000, 10, 1),
             ("Henry J. Waternoose III", 500, 5, 1),
             ("Boo", 300, 3, 1),
-            ("George Sanderson", 200, 2, 1),
-            ("Mrs. Flint", 100, 1, 1),
-            ("Needleman", 100, 1, 1),
-            ("Pete Ward", 100, 1, 1),
-            ("Smitty", 100, 1, 1),
-            ("Chef de sushi", 100, 1, 1)
+            ("George Sanderson", 200, 2, 1)
         ]
         with sqlite3.connect(self.connection_string) as conexion:
             for item in fake_data:
@@ -158,6 +153,8 @@ class HighScores:
 
         Params:
         - screen: (type: surface)
+
+        Return: (type:list) lista de tuplas con los valores de texto y posición de cada ítem a imprimir
         """
         scores_to_show = []
         items_cols = []
@@ -184,9 +181,10 @@ class HighScores:
         scores_to_show.append(items_cols)
         
         db_scores = self.select_high_scores()
+        item_order = 1
         for item in db_scores:
             posicion_y -= 50
-            col1 = self.font_headers.render('{0:<4}'.format(item[0]), False, (Colours.LIGHT_GREY))
+            col1 = self.font_headers.render('{0:<4}'.format(item_order), False, (Colours.LIGHT_GREY))
             col2 = self.font_headers.render(f'{item[1].ljust(30)[:30]}', False, (Colours.LIGHT_GREY))
             col3 = self.font_headers.render('{0:^20}'.format(item[2]), False, (Colours.LIGHT_GREY))
             col4 = self.font_headers.render('{0:^10}'.format(item[3]), False, (Colours.LIGHT_GREY))
@@ -199,4 +197,95 @@ class HighScores:
                           [col5, (posicion_x_col5, (screen.get_height() - posicion_y))]]
             
             scores_to_show.append(items_cols)
+            item_order += 1
         return scores_to_show
+    
+    def save_game_score(self, score, lines, level):
+        """
+        Guarda el puntaje obtenido en la base de datos.
+
+        Params:
+        - score: (type:int) puntaje obtenido en la partida
+        - lines: (type:int) lineas formadas en la partida
+        - level: (type:int) nivel alcanzado en la partida
+        """
+        name = 'Otro Nombre'
+        with sqlite3.connect(self.connection_string) as conexion:
+            try:
+                conexion.execute(f"INSERT into {self.table_name} ( nickname, score, lines, level) values (?,?,?,?)", (name, score, lines, level,))
+            except:
+                print("Error en la inserción de dato")
+
+    def save_high_scores(self, score, lines, level):
+        """
+        Chequea si el puntaje hecho en la partida recién finalizada califica para guardarse en el top 10
+
+        Params:
+        - score: (type:int) puntaje obtenido en la partida
+        - lines: (type:int) lineas formadas en la partida
+        - level: (type:int) nivel alcanzado en la partida
+        """
+        name = 'Candela'
+        new_scores = []
+        lowers_scores = self.filter_lower_high_scores(score)
+        # for element in lowers_scores:
+        if len(lowers_scores) >= 1:
+            nuevo_elemento_id = lowers_scores[0][0]
+            nuevo_elemento_nickname = name
+            nuevo_elemento_score = score
+            nuevo_elemento_lines = lines
+            nuevo_elemento_level = level
+
+            nuevo_elemento = (nuevo_elemento_id, nuevo_elemento_nickname, nuevo_elemento_score, nuevo_elemento_lines, nuevo_elemento_level)
+
+            new_scores.append(nuevo_elemento)
+
+            for element in lowers_scores:
+                if element[0] < 10:
+                    nuevo_elemento_id = element[0] + 1
+                    nuevo_elemento_nickname = element[1]
+                    nuevo_elemento_score = element[2]
+                    nuevo_elemento_lines = element[3]
+                    nuevo_elemento_level = element[4]
+
+                    nuevo_elemento = (nuevo_elemento_id, nuevo_elemento_nickname, nuevo_elemento_score, nuevo_elemento_lines, nuevo_elemento_level)
+
+                    new_scores.append(nuevo_elemento)
+                else:
+                    lowers_scores.remove(element)
+
+            self.update_values_in_table(new_scores)
+
+    def filter_lower_high_scores(self, score_to_test):
+        """
+        Hace un select a la db y devuelve los 10 puntajes más altos.
+
+        Params:
+        - score_to_test: (type:int) puntaje a confirmar si puedo agregarlo a la db
+        """
+        error_message = 'En este momento, no se pueden mostrar los puntajes'
+        with sqlite3.connect(self.connection_string) as conexion:
+            try:
+                cursor = conexion.execute(f"SELECT * FROM {self.table_name} \
+                                          WHERE score  < {score_to_test}\
+                                          ORDER BY score DESC \
+                                          LIMIT 10")
+                lista = cursor.fetchall()
+                return lista
+            except:
+                return error_message
+            
+    def update_values_in_table(self, new_scores):
+        """
+        Actualiza en la db los valores de los puntajes más altos
+
+        Params:
+        - new_scores: (type: list) lista de tuplas con los valores a updatear
+        """
+        with sqlite3.connect(self.connection_string) as conexion:
+            for item in new_scores:
+                try:
+                    sentencia = f"UPDATE {self.table_name} SET nickname = ?, score = ?, lines = ?, level = ? WHERE id = ?"
+                    conexion.execute(sentencia, (item[1], item[2], item[3], item[3], item[0],))
+                except:
+                    print("Error en la inserción de dato")

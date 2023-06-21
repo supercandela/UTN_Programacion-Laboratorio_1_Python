@@ -26,6 +26,7 @@ main_menu.gameplay_scene = game_play
 #GamePlay
 game_play.main_menu = main_menu
 game_play.settings = settings
+game_play.high_scores = high_scores
 #High Scores
 high_scores.main_menu = main_menu
 #Settings

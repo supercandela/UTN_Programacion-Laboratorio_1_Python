@@ -51,7 +51,7 @@ class Game:
                     continue
             
             if self.settings.music:
-                self.music_sound.play(1000)
+                self.music_sound.play()
             else:
                 self.music_sound.stop()
             #Pantalla a mostrar

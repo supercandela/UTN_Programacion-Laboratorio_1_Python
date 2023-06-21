@@ -2,8 +2,6 @@ import pygame
 import Colours
 import random
 from pygame.mixer import Sound
-# from Grid import Grid
-# from Block import Block
 
 #BLOCKS
 BLOCKS = [
@@ -65,6 +63,7 @@ class GamePlay:
         """
         self.main_menu = None
         self.settings = None
+        self.high_scores = None
         self.lines_sound_effect = Sound('Laboratorio_1-2do_Parcial\\sounds\\lines.wav')
 
         #GRID
@@ -135,6 +134,13 @@ class GamePlay:
         self.button_font = pygame.font.SysFont('Arial', 15)
         self.button_text = self.button_font.render('Pause', True, self.text_colour)
         self.mouse_x, self.mouse_y = (0,0)
+
+        #BOTON RESET
+        self.button_rect_reset = [screen.get_width() - 270,
+                                  0,
+                                  self.button_width,
+                                  self.button_height]
+        self.button_text_reset = self.button_font.render('Restart', True, self.text_colour)
 
     def draw_grid(self, screen):
         """
@@ -318,6 +324,29 @@ class GamePlay:
                 if self.button_rect[0] <= self.mouse_x <= self.button_rect[0] + self.button_rect[2] and \
                     self.button_rect[1] <= self.mouse_y <= self.button_rect[1] + self.button_rect[3]:
                     return self.main_menu
+                if self.button_rect_reset[0] <= self.mouse_x <= self.button_rect_reset[0] + self.button_rect_reset[2] and \
+                    self.button_rect_reset[1] <= self.mouse_y <= self.button_rect_reset[1] + self.button_rect_reset[3]:
+                    #GameBoard
+                    #Tablero de fondo
+                    self.game_board = []
+                    #Inicializo el Game Board en negro
+                    for i in range(self.number_cols):
+                        new_col = []
+                        for j in range(self.number_rows):
+                            new_col.append(Colours.BLACK)
+                        self.game_board.append(new_col)
+
+                    #BLOQUE
+                    #Instancio el bloque, le paso como parámetros el lugar inicial del bloque
+                    self.block = Block((self.number_cols - 1) // 2, 0)
+                    self.next_block = Block((self.number_cols - 1) // 2, 0)
+
+                    self.fps = 5
+                    self.score = 0
+                    self.lines = 0
+                    self.level = 1
+                    #Para cuando los bloques tocan arriba de la pantalla
+                    self.game_finished = False
             if event.type == pygame.MOUSEMOTION:
                 self.mouse_x, self.mouse_y = event.pos
             if event.type == pygame.KEYDOWN:
@@ -355,6 +384,17 @@ class GamePlay:
                     (self.button_rect[0] + (self.button_width - self.button_text.get_width()) / 2,
                      self.button_rect[1] + (self.button_height - self.button_text.get_height()) /2))
         
+        #Boton Reset
+        if self.button_rect_reset[0] <= self.mouse_x <= self.button_rect_reset[0] + self.button_rect_reset[2] and \
+            self.button_rect_reset[1] <= self.mouse_y <= self.button_rect_reset[1] + self.button_rect_reset[3]:
+            pygame.draw.rect(screen, self.button_hover_colour, self.button_rect_reset)
+        else:
+            pygame.draw.rect(screen, self.button_colour, self.button_rect_reset)
+
+        screen.blit(self.button_text_reset, 
+                    (self.button_rect_reset[0] + (self.button_width - self.button_text_reset.get_width()) / 2,
+                     self.button_rect_reset[1] + (self.button_height - self.button_text_reset.get_height()) /2))
+        
         #GRID - GAMEBOARD
         #Dibuja la grilla y el gameboard
         self.draw_grid(screen)
@@ -381,11 +421,17 @@ class GamePlay:
                 if self.collides(0,0):
                     self.game_finished = True
 
-        # font = pygame.font.SysFont('Arial', 25, True, False)
-        # text = font.render('Score: ' + str(self.score), True, Colours.WHITE)
-        # screen.blit(text, [0, 0])
+        #Cambio de Nivel
+        if self.lines > 3 and self.level == 1:
+            self.level += 1
+            self.fps *= 1.5
+        if self.lines > 6 and self.level == 2:
+            self.level += 1
+            self.fps *= 1.5
+
         if self.game_finished:
             screen.blit(self.game_finished_text, self.game_finished_text_position)
+            self.high_scores.save_game_score(self.score, self.lines, self.level)
 
         #Panel Lateral
         #Next Block
