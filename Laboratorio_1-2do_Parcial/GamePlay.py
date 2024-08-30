@@ -421,16 +421,29 @@ class GamePlay:
                     self.game_finished = True
 
         #Cambio de Nivel
-        if self.lines > 3 and self.level == 1:
+        if self.lines >= 30 and self.level == 1:
             self.level += 1
-            self.fps *= 1.5
-        if self.lines > 6 and self.level == 2:
+            self.fps *= 1.3
+        if self.lines >= 60 and self.level == 2:
             self.level += 1
-            self.fps *= 1.5
+            self.fps *= 1.2
+        if self.lines >= 120 and self.level == 3:
+            self.level += 1
+            self.fps *= 1.1
+
+        # if self.lines >= 3 and self.level == 1:
+        #     self.level += 1
+        #     self.fps *= 1.3
+        # if self.lines >= 6 and self.level == 2:
+        #     self.level += 1
+        #     self.fps *= 1.2
+        # if self.lines >= 10 and self.level == 3:
+        #     self.level += 1
+        #     self.fps *= 1.1
 
         if self.game_finished:
             screen.blit(self.game_finished_text, self.game_finished_text_position)
-            self.high_scores.save_game_score(self.score, self.lines, self.level)
+            self.high_scores.save_high_scores(self.score, self.lines, self.level)
 
         #Panel Lateral
         #Next Block

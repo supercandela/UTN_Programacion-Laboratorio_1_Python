@@ -23,11 +23,11 @@ class Game:
         self.height = h
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.game_name)
-        pygame_icon = pygame.image.load('Laboratorio_1-2do_Parcial\\images\\Tetris_Icon.png')
-        pygame.display.set_icon(pygame_icon)
+        # pygame_icon = pygame.image.load('Laboratorio_1-2do_Parcial\\images\\Tetris_Icon.png')
+        # pygame.display.set_icon(pygame_icon)
         self.current_state = None
         self.settings = None
-        self.music_sound = Sound('Laboratorio_1-2do_Parcial\\sounds\\PowerGlove-Tetris.mp3')
+        # self.music_sound = Sound('Laboratorio_1-2do_Parcial\\sounds\\PowerGlove-Tetris.mp3')
 
     def run(self, state:object):
         """

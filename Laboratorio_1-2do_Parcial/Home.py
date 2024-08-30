@@ -12,7 +12,7 @@ class Home():
 
         Return: Void
         """
-        self.image = pygame.image.load('Laboratorio_1-2do_Parcial\\images\\Tetris_Pantalla_Inicio.png')
+        # self.image = pygame.image.load('Laboratorio_1-2do_Parcial\\images\\Tetris_Pantalla_Inicio.png')
         self.x = 0
         self.y = 0
         self.frame = 0

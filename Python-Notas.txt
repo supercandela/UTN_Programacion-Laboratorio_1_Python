@@ -1,0 +1,104 @@
+Python:
+
+Algoritmo: conjunto de instrucciones, pasos, órdenes, que deben estar ordenados de manera lógica, para resolver el problema.
+La sintaxis es diferente.
+No es tipado.
+No se declaran las variables.
+No hay punto y coma (;)
+No hay llaves de apertura y cierre de bloques. Los bloques se definen por indentación y dos puntos (:)
+No se usan los paréntesis en los if, los for. 
+Sí se usan paréntesis en las funciones. 
+Sí se usan paréntesis para separaciones lógicas de condiciones, por ejemplo en and y or.
+
+Los comentarios de una línea se hacen con un numeral (#).
+#Comentario de una línea
+
+Los comentarios de múltiples líneas son con triple comilla
+"""
+Comentario
+de
+varias
+líneas
+"""
+
+En lugar de camel case, vamos a usar guiones bajos o snake_case para separar palabras. Ej: nombre_alumno
+
+
+-----> Operadores
+Similar a otros lenguajes.
+NO funciona el numero++ o numero--. Usar numero += o los operadores tradicionales. 
+
+-----> Estructuras de control
+No existe SWITCH
+RANGE: cuando le paso parámetros (inicio_del_ciclo, fin_del_ciclo, salto). Ej: range(0, 10, 2). Incluye el inicio, NO incluye el fin.
+
+
+-----> Comandos
+
+Para ingresar datos:
+input()
+en los paréntesis, va el placeholder del mensaje que quiero
+
+Para imprimir datos en consola:
+print()
+en los paréntesis, el dato a imprimir
+
+
+-------> Funciones
+Palabra reservada def, para saber que es una función. Es como function.
+Tener en claro, sobre la función:
+- qué hace? (objetivo de la función)
+- qué recibe? (parámetros)
+- qué retorna? (return ?)
+
+def mi_funcion(parametro_1, parametro_2, parametro_3, parametro_4, parametro_5):
+	instrucciones a ejecutar
+	return <algo>
+	
+	
+-------> Ordenamiento - Burbujeo
+ordenamiento: dar un orden determinado a una serie de elementos. Ascendente o descendente
+
+ver tipos diferentes, analizarlos y estudiarlos para el parcial
+
+-------> Clases
+los nombres se escriben en CapitalizedWords
+class Personaje:
+	pass
+	
+constructor: _init_
+
+dentro de la clase:
+def _init_(parametros que recibe):
+
+al instanciar la clase, el elemento se convierte en un objeto específico de esa clase.
+
+
+
+SQL:
+Lenguaje de consulta estructurado
+
+Maneja objetos. Agrega, obtiene y borra datos de una db.
+En python, se usa con un módulo. No necesitamos la estructura cliente-servidor
+Una db es un contenedor de tablas y una tabla es un contenedor de registros.
+Cada registro está formado por campos. 
+En las tablas, vamos a tener columnas y filas.
+La gran diferencia radica en la complejidad de los datos que pueden guardar, en comparación a los archivos.
+SQLite gestor de bases de datos relacionales. Es open source.
+Objetos de las db: tablas, store procedures, vistas, etc. No es un objeto como el del POO.
+
+SQL está formado por dos lenguajes:
+-DDL - Lenguaje de definición de datos. Modificación de la estructuda de los objetos de la db.
+CREATE
+ALTER
+DROP
+TRUNCATE
+
+- DML - Lenguaje de manipulación de datos. Consulta o manipulación.
+SELECT
+INSERT
+UPDATE
+DELETE
+
+SQLite es tipado.
+Cursor: lista en memoria de múltiples registros. (Está en el select)
